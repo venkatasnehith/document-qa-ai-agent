@@ -1,6 +1,8 @@
-from langchain.embeddings import HuggingFaceEmbeddings
-
-def get_embeddings():
-    return HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+def chunk_text(text, size=500, overlap=100):
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + size
+        chunks.append(text[start:end].strip())
+        start = end - overlap
+    return chunks

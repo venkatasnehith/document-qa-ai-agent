@@ -1,14 +1,9 @@
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+import PyPDF2
 
-def load_pdfs(pdf_paths):
-    documents = []
-    for path in pdf_paths:
-        loader = PyPDFLoader(path)
-        documents.extend(loader.load())
-
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200
-    )
-    return splitter.split_documents(documents)
+def extract_text_from_pdf(file):
+    reader = PyPDF2.PdfReader(file)
+    text = ""
+    for page in reader.pages:
+        if page.extract_text():
+            text += page.extract_text() + "\n"
+    return text
